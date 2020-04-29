@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Eurostep: LIVE{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('live') }}
+{% endblock %}
+
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Ordine</th>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Fase</th>
+            <th scope="col">Operatore</th>
+            <th scope="col">Fine</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for step in paginator.results %}
+            <tr>
+                <th scope="row">{{ step.numeroOrdine }}_{{ step.lottoOrdine }}</th>
+                <td>{{ step.timestamp | date('d.m.y H:s')}}</td>
+                <td>{{ step.codiceFase.descrizione }}</td>
+                <td>{{ step.codiceOperatore }}</td>
+                <td>{% if step.inizioFine  %}<i class="fas fa-check"></i>
+                    {% else %}<i class="fas fa-spinner rotating"></i>
+                    {% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ include('eurostep/_paginator.html.twig', {paginator: paginator}) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('live') }}
+{% endblock %}
+
