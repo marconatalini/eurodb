@@ -56,6 +56,7 @@ class TbAvanzamentoRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('a')
             ->where('a.timestamp >= :oggi')
             ->setParameter('oggi', new \DateTime('today'))
+            ->orderBy('a.timestamp', "DESC")
             ;
 
         return (new Paginator($qb))->paginate(1);

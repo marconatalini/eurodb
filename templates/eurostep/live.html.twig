@@ -23,8 +23,12 @@
         {% for step in paginator.results %}
             <tr>
                 <th scope="row">{{ step.numeroOrdine }}_{{ step.lottoOrdine }}</th>
-                <td>{{ step.timestamp | date('d.m.y H:s')}}</td>
-                <td>{{ step.codiceFase.descrizione }}</td>
+                <td>{{ step.timestamp | date('d.m.y H:i:s')}}</td>
+                <td>{{ step.codiceFase.descrizione }}
+                    {% if step.codiceFase.codiceFase == 'V2' %}
+                        : {{ step.bilancelle }} bilancelle
+                    {% endif %}
+                </td>
                 <td>{{ step.codiceOperatore }}</td>
                 <td>{% if step.inizioFine  %}<i class="fas fa-check"></i>
                     {% else %}<i class="fas fa-spinner rotating"></i>
