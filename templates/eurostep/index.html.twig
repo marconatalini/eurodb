@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Eurostep{% endblock %}
+
+{% block body %}
+    <form class="form-inline mt-5">
+        <label class="sr-only" for="registerDate">Data</label>
+        <input type="date" class="form-control mb-2 mr-sm-2" name="registerDate" id="registerDate" value="{{ date()|date("Y-m-d") }}">
+
+        <label class="sr-only" for="codiceFase">Lavorazione</label>
+        <select class="custom-select mb-2 mr-sm-2" name="codiceFase" id="codiceFase">
+            <option value="" selected>Qualsiasi lavorazione</option>
+            {% for lavorazione in lavorazioni %}
+                <option value="{{ lavorazione.codiceFase }}">{{ lavorazione.descrizione }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary mb-2">Cerca</button>
+    </form>
+
+{% endblock %}

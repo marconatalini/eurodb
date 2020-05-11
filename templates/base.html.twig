@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Marco Natalini">
+    <title>{% block title %}Eurodb WEB{% endblock %}</title>
+
+    {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
+
+</head>
+<body>
+{% include 'default/_nav.html.twig'%}
+
+{% block body %}{% endblock %}
+
+<footer class="text-muted">
+    <div class="container">
+        <p class="float-right">
+            <a href="#">Torna su</a>
+        </p>
+        <p>Sito realizzato da Marco Natalini &copy; 2020</p>
+        <p>Cerchi foto e altre immagini aziendali? Vai su <a href="http://eurostock.europrofili.locale" target="_blank">Eurostock</a>
+            e cerca quello che vuoi.</p>
+    </div>
+</footer>
+
+{% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
+</body>
+</html>
+
