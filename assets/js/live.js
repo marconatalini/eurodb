@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (step.inizioFine == 1) {
             inizioFineClass = "fas fa-check";
         }
-        table.prepend($(`<tr class="live"><th scope="row">${step.numeroOrdine}_${step.lottoOrdine}</th><td>${orario.toLocaleString("it-IT")}</td><td>${step.codiceFase.descrizione}</td><td>${step.codiceOperatore.descrizione}</td><td><i class="${inizioFineClass}"></i></td></tr>`));
+        table.prepend($(`<tr class="live"><th scope="row">${step.numeroOrdine}_${step.lottoOrdine}</th><td>${orario.toLocaleString("it-IT")}</td><td>${step.codiceFase.descrizione}</td><td>${step.codiceOperatore.descrizione}</td><td><i class="${inizioFineClass}"></i></td><td>${step.secondi}</td></tr>`));
     }
 
 

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block nav %}{% endblock %}
+
+{% block body %}
+    <h1>{{ ordine.numero }}_{{ ordine.lotto }}</h1>
+    <p class="lead">{{ ordine.xragsoc }}</p>
+    <p>Rif: {{ ordine.riferimento }}</p>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>scadenza</th><td>{{ ordine.dataScadenzaProduzione | date('d.m.y')}}</td>
+            </tr>
+            <tr>
+                <th>finitura</th><td>{{ ordine.finitura}}</td>
+            </tr>
+            <tr>
+                <th>n cornici</th><td>{{ ordine.nCornici}}</td>
+            </tr>
+            <tr>
+                <th>n spezzoni</th><td>{{ ordine.nComplementari}}</td>
+            </tr>
+            <tr>
+                <th>n lamiere</th><td>{{ ordine.nLamiere}}</td>
+            </tr>
+            <tr>
+                <th>n tagli</th><td>{{ ordine.nTagli}}</td>
+            </tr>
+            <tr>
+                <th>n montaggi</th><td>{{ ordine.nMontaggi}}</td>
+            </tr>
+            <tr>
+                <th>n CNC</th><td>{{ ordine.nLavorazioniCnc}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Lavorazioni eseguite</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Utente</th>
+            <th scope="col">Lavoro</th>
+            <th scope="col">Timestamp</th>
+            <th scope="col">I/F</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for step in steps %}
+            <tr>
+                <th scope="row">{{ step.codiceOperatore.descrizione }}</th>
+                <td>{{ step.codiceFase.descrizione}}</td>
+                <td>{{ step.timestamp | date('d.m.y H:i:s')}}</td>
+                <td>{% if step.inizioFine  %}<i class="fas fa-check"></i>
+                    {% else %}<i class="fas fa-spinner"></i>
+                    {% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
+
+{% block footer %} {% endblock %}

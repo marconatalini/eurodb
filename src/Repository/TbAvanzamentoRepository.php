@@ -14,6 +14,7 @@ use App\Entity\TbDipendenti;
 use App\Entity\TbOrdinila;
 use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -67,8 +68,11 @@ class TbAvanzamentoRepository extends ServiceEntityRepository
     {
 
         return $this->createQueryBuilder('a')
-            ->select('a.numeroOrdine, a.lottoOrdine, a.timestamp, a.inizioFine')
-            ->addSelect('o.finitura, o.nCornici, o.nComplementari, o.nTagli')
+            ->addSelect('o, d')
+//            ->addSelect('a.numeroOrdine, a.lottoOrdine, a.timestamp, a.inizioFine')
+//            ->addSelect('o.finitura, o.nCornici, o.nComplementari, o.nTagli')
+//            ->addSelect('d.idDipendente, d.descrizione')
+            ->leftJoin(TbDipendenti::class, 'd', Expr\Join::WITH, ('a.codiceOperatore = d.idDipendente'))
             ->leftJoin(TbOrdinila::class , 'o', Expr\Join::WITH, '(o.numero = a.numeroOrdine AND o.lotto = a.lottoOrdine)')
             ->where('a.timestamp >= :oggi')
             ->andWhere('a.inizioFine = true')
@@ -76,7 +80,7 @@ class TbAvanzamentoRepository extends ServiceEntityRepository
             ->setParameter('oggi', new \DateTime('today'))
             ->setParameter('ordinePulizia', 999999)
             ->getQuery()
-            ->getResult()
+            ->getResult(Query::HYDRATE_SCALAR)
             ;
     }
 
@@ -113,8 +117,9 @@ inner join
     data_finito is null and data_annullato is null order by xcdcol) as t2 on (t1.numero_ordine = 
     t2.numero and t1.lotto_ordine = t2.lotto) group by numero_ordine, lotto_ordine) as t3
 inner join
-    (select numero, lotto, finitura, scp, n_cornici as nCornici, n_complementari as nComplementari, n_tagli as nTagli, n_lavorazioni_CNC as nLavorazioniCnc, xcdcol
-    FROM tb_ordinila) as t4 on (t3.numeroOrdine = t4.numero and t3.lottoOrdine = t4.lotto) order by t4.xcdcol;";
+    (select numero as a_numeroOrdine, lotto as a_lottoOrdine, finitura as o_finitura, scp as o_scp, n_cornici as o_nCornici, 
+    n_complementari as o_nComplementari, n_tagli as o_nTagli, n_lavorazioni_CNC as o_nLavorazioniCnc, xcdcol
+    FROM tb_ordinila) as t4 on (t3.numeroOrdine = t4.a_numeroOrdine and t3.lottoOrdine = t4.a_lottoOrdine) order by t4.xcdcol;";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
@@ -136,8 +141,9 @@ inner join
     data_finito is null and data_annullato is null order by data_scadenza_produzione) as t2 on (t1.numero_ordine = 
     t2.numero and t1.lotto_ordine = t2.lotto) group by numero_ordine, lotto_ordine) as t3
 inner join
-    (select numero, lotto, finitura, scp, n_cornici as nCornici, n_complementari as nComplementari, n_tagli as nTagli, n_lavorazioni_CNC as nLavorazioniCnc, xcdcol
-    FROM tb_ordinila) as t4 on (t3.numeroOrdine = t4.numero and t3.lottoOrdine = t4.lotto) order by t4.xcdcol;";
+    (select numero as a_numeroOrdine, lotto as a_lottoOrdine, finitura as o_finitura, scp as o_scp, n_cornici as o_nCornici, 
+    n_complementari as o_nComplementari, n_tagli as o_nTagli, n_lavorazioni_CNC as o_nLavorazioniCnc, xcdcol
+    FROM tb_ordinila) as t4 on (t3.numeroOrdine = t4.a_numeroOrdine and t3.lottoOrdine = t4.a_lottoOrdine) order by t4.xcdcol;";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
@@ -159,8 +165,9 @@ inner join
     and data_finito is null and data_annullato is null order by xcdcol) as t2 on (t1.numero_ordine = 
     t2.numero and t1.lotto_ordine = t2.lotto) group by numero_ordine, lotto_ordine) as t3
 inner join
-    (select numero, lotto, finitura, scp, n_cornici as nCornici, n_complementari as nComplementari, n_tagli as nTagli, n_lavorazioni_CNC as nLavorazioniCnc, xcdcol
-    FROM tb_ordinila) as t4 on (t3.numeroOrdine = t4.numero and t3.lottoOrdine = t4.lotto) order by t4.xcdcol;";
+    (select numero as a_numeroOrdine, lotto as a_lottoOrdine, finitura as o_finitura, scp as o_scp, n_cornici as o_nCornici, 
+    n_complementari as o_nComplementari, n_tagli as o_nTagli, n_lavorazioni_CNC as o_nLavorazioniCnc, xcdcol
+    FROM tb_ordinila) as t4 on (t3.numeroOrdine = t4.a_numeroOrdine and t3.lottoOrdine = t4.a_lottoOrdine) order by t4.xcdcol;";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();

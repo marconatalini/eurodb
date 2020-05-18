@@ -7,6 +7,7 @@
     {{ encore_entry_link_tags('live') }}
 {% endblock %}
 
+{% block nav %} {% endblock %}
 
 {% block body %}
     <table class="table">
@@ -17,6 +18,7 @@
             <th scope="col">Fase</th>
             <th scope="col">Operatore</th>
             <th scope="col">Fine</th>
+            <th scope="col">Secondi</th>
         </tr>
         </thead>
         <tbody>
@@ -25,7 +27,7 @@
                 <th scope="row">{{ step.numeroOrdine }}_{{ step.lottoOrdine }}</th>
                 <td>{{ step.timestamp | date('d.m.y H:i:s')}}</td>
                 <td>{{ step.codiceFase.descrizione }}
-                    {% if step.codiceFase.codiceFase == 'V2' %}
+                    {% if step.codiceFase.codiceFase == 'V2' and not step.inizioFine %}
                         : {{ step.bilancelle }} bilancelle
                     {% endif %}
                 </td>
@@ -33,6 +35,7 @@
                 <td>{% if step.inizioFine  %}<i class="fas fa-check"></i>
                     {% else %}<i class="fas fa-spinner rotating"></i>
                     {% endif %}</td>
+                <td>{{ step.secondi }}</td>
             </tr>
         {% endfor %}
         </tbody>

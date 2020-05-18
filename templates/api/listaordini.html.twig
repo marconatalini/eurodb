@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block nav %}{% endblock %}
+
+
+{% block body %}
+    <h1>{{ title }}</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Ordine</th>
+            <th scope="col">Finitura</th>
+            <th scope="col">crn</th>
+            <th scope="col">spz</th>
+            <th scope="col">tgl</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set totaleCornici = 0 %}
+        {% set totaleComplementari = 0 %}
+        {% set totaleTagli = 0 %}
+        {% for row in result %}
+            <tr>
+                <th scope="row"><a href="{{ path('app_ordineLA', {numero: row.a_numeroOrdine, lotto: row.a_lottoOrdine }) }}">{{ row.a_numeroOrdine }}_{{ row.a_lottoOrdine }}</a></th>
+                <td>{{ row.o_finitura}}</td>
+                <td>{{ row.o_nCornici}}</td>
+                <td>{{ row.o_nComplementari}}</td>
+                <td>{{ row.o_nTagli}}</td>
+                {% set totaleCornici = totaleCornici + row.o_nCornici %}
+                {% set totaleComplementari = totaleComplementari + row.o_nComplementari%}
+                {% set totaleTagli = totaleTagli + row.o_nTagli %}
+            </tr>
+        {% endfor %}
+            <tr class="bg-dark">
+                <th scope="row">Totali</th>
+                <td></td>
+                <td>{{ totaleCornici}}</td>
+                <td>{{ totaleComplementari }}</td>
+                <td>{{ totaleTagli }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>LEGENDA: crn=cornici, spz=spezzoni, tgl=tagli</p>
+{% endblock %}
+
+{% block footer %} {% endblock %}

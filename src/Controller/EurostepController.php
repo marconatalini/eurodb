@@ -211,27 +211,30 @@ class EurostepController extends AbstractController
     /**
      * @Route("/online/{operatore}/{fase}", name="eurostep_online")
      */
-    public function online(Request $request, TbDipendenti $operatore, TbDescrizioniFasiProduzione $fase, PublisherInterface $publisher)
+    public function online(Request $request, TbDipendenti $operatore, TbDescrizioniFasiProduzione $fase, PublisherInterface $publisher, TbAvanzamentoRepository $avanzamentoRepository)
     {
-//        /online/S3?ordine_lotto=862388_0&operatore=I0056&seconds=0&bilancelle=2.3
+//        /online/I0056/S3?ordine_lotto=862388_0&operatore=I0056&seconds=0&bilancelle=2.3
 
         $response = new Response();
         $response->headers->set('Content-Type', 'text/plain');
+
+        //read parameters
+        $secondi = $request->get('seconds', 0);
+        list($ordine, $lotto) = explode('_', $request->get('ordine_lotto'));
 
         try {
             $step = new TbAvanzamento();
 
             $step->setCodiceFase($fase);
             $step->setCodiceOperatore($operatore);
-            $secondi = $request->get('seconds', 0);
+            $step->setNumeroOrdine($ordine);
+            $step->setLottoOrdine($lotto);
             $step->setSecondi($secondi);
             if ($secondi > 0){
                 $step->setInizioFine(true);
             }
             $step->setBilancelle($request->get('bilancelle', 0));
-            list($ordine, $lotto) = explode('_', $request->get('ordine_lotto'));
-            $step->setNumeroOrdine($ordine);
-            $step->setLottoOrdine($lotto);
+
 
             $response->setContent("Registrato ordine {$ordine}_{$lotto}");
 
@@ -248,17 +251,17 @@ class EurostepController extends AbstractController
 
             $response->setStatusCode(Response::HTTP_OK);
 
-            $update = new Update('http://eurodb.europrofili.locale/eurostep/',
-                $this->serializer->serialize($step, 'json'));
-
-            $live = $_ENV['MERCURE_LIVE_OK'];
-
             try {
+                $update = new Update('http://eurodb.europrofili.locale/eurostep/',
+                    $this->serializer->serialize($step, 'json'));
+
+                $live = $_ENV['MERCURE_LIVE_OK'];
                 if ($live === "true") {
                     $publisher($update);
                 }
+
             } catch (\Exception $e) {
-                $response->setContent($response->getContent() . "\nErrore publisher: " .$e);
+                $response->setContent($response->getContent() . "\nErrore publisher: " . substr($e,0,50));
             }
 
         } catch (AssertionError $e) {
