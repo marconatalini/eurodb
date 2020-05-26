@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block nav %}{% endblock %}
+
+
+{% block body %}
+    <h1>{{ title }}</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Errore</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in result %}
+            <tr>
+                <th scope="row">{{ row.timestamp | date('d.m.y H:i:s')}}</th>
+                <td><pre>{{ row.stacktrace}}</pre></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block footer %} {% endblock %}

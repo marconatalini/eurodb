@@ -130,8 +130,8 @@ class NcController extends AbstractController
         $ncv->setCodVerniciatore1($request->get('cod_verniciatore1'));
         $ncv->setCodVerniciatore2($request->get('cod_verniciatore2'));
         $ncv->setCodVerniciatore3($request->get('cod_verniciatore3'));
-        $ncv->setDataoraVerniciatura(new DateTime($request->get('dataora_verniciatura')));
-        $ncv->setDataSoluzione(new DateTime($request->get('data_soluzione')));
+        $ncv->setDataSoluzione(new \DateTime($request->get('data_soluzione')));
+        $ncv->setDataoraVerniciatura(new \DateTime($request->get('dataora_verniciatura')));
         $ncv->setDeLevigatura($request->get('de_levigatura'));
         $ncv->setDeMancanzaFori($request->get('de_mancanza_fori'));
         $ncv->setDeProfiliAmmaccati($request->get('de_profili_ammaccati'));
@@ -216,8 +216,15 @@ class NcController extends AbstractController
         $response = new Response();
         $response->headers->set('Content-Type', 'text/plain');
 
+//        $response->setContent("{$ordinela->getXcdcol()};");
+//        return $response;
+
         if ($ordinela !== null && $ordinela->getXcdcol() !== null ){
-            $response->setContent("{$ordinela->getXcdcol()};{$ordinela->getXdecol()}");
+            if ($ordinela->getXdecol() !== null) {
+                $response->setContent("{$ordinela->getXcdcol()};{$ordinela->getXdecol()}");
+            } else {
+                $response->setContent("{$ordinela->getXcdcol()};{$ordinela->getFinitura()}");
+            }
         } else {
             $response->setContent("Colore ordine {$numero}_{$lotto} non trovato. Chiama Marco (156)");
         }

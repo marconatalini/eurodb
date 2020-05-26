@@ -82,24 +82,24 @@ class EurostepController extends AbstractController
         $response = new Response();
         $response->headers->set('Content-Type', 'text/plain');
 
-        if ($appversion < 6) {
+        if ($appversion < 7) {
             $response->setContent('Update');
             return $response;
         }
 
-        $ip = getenv('HTTP_CLIENT_IP')?:
+        /*$ip = getenv('HTTP_CLIENT_IP')?:
             getenv('HTTP_X_FORWARDED_FOR')?:
                 getenv('HTTP_X_FORWARDED')?:
                     getenv('HTTP_FORWARDED_FOR')?:
                         getenv('HTTP_FORWARDED')?:
-                            getenv('REMOTE_ADDR');
+                            getenv('REMOTE_ADDR');*/
 
         $dipendente = $tbDipendentiRepository->findOneBy([
             'idDipendente' => $codice
         ]);
 
-        $em = $this->getDoctrine()->getManager();
-        $log = new TbLog();
+//        $em = $this->getDoctrine()->getManager();
+//        $log = new TbLog();
 
         if ($dipendente !== null){ //login
             $response->setContent("{$dipendente->getIdDipendente()} {$dipendente->getDescrizione()}");
@@ -107,8 +107,8 @@ class EurostepController extends AbstractController
             $response->setContent($codice);
         }
 
-        $em->persist($log);
-        $em->flush();
+//        $em->persist($log);
+//        $em->flush();
 
         return $response;
 

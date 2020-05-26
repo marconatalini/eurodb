@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\TbEurostepErrorLog;
 use App\Entity\TbOrdinila;
 use App\Repository\TbAvanzamentoRepository;
+use App\Repository\TbEurostepErrorLogRepository;
 use App\Repository\TbOrdinilaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -103,4 +106,46 @@ class ApiController extends AbstractController
             'steps' => $steps
         ]);
     }
+
+    /**
+     * @Route("/errorlog",  name="app_error_log")
+     */
+    public function errorLog(Request $request){
+
+        $stacktrace = $request->get('stacktrace');
+
+        if ($stacktrace !== null){
+            $log = new TbEurostepErrorLog();
+
+            $log->setStacktrace($stacktrace);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($log);
+            $em->flush();
+
+            $response = new Response();
+            $response->headers->set('Content-Type', 'text/plain');
+            $response->setContent("Errore inviato: grazie.");
+
+            return $response;
+
+        } else {
+            return new Response("Errore non registrato, riprova.", Response::HTTP_NOT_FOUND);
+        }
+
+    }
+
+    /**
+     * @Route("/errori",  name="app_errori")
+     */
+    public function errori(TbEurostepErrorLogRepository $repository){
+
+        $result = $repository->getErroriOggi();
+
+        return $this->render("api/logErrori.html.twig", [
+            'title' => "Ultimi errori APP Eurostep",
+            'result' => $result,
+        ]);
+    }
+
 }
