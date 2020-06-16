@@ -77,6 +77,13 @@ class TbAvanzamento
     private $bilancelle = '0.0';
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="carrello", type="string", length=3, nullable=true)
+     */
+    private $carrello;
+
+    /**
      * @var \TbDescrizioniFasiProduzione
      *
      * @ORM\ManyToOne(targetEntity="TbDescrizioniFasiProduzione")
@@ -237,6 +244,24 @@ class TbAvanzamento
     {
         $this->codiceFase = $codiceFase;
     }
+
+    /**
+     * @return null|string
+     */
+    public function getCarrello()
+    {
+        return $this->carrello;
+    }
+
+    /**
+     * @param null|string $carrello
+     */
+    public function setCarrello($carrello)
+    {
+        $this->carrello = $carrello;
+    }
+
+
 
 
 }

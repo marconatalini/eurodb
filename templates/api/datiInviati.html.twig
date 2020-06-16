@@ -28,7 +28,12 @@
         {% for row in result %}
             <tr>
                 <th scope="row"><a href="{{ path('app_ordineLA', {numero: row.a_numeroOrdine, lotto: row.a_lottoOrdine }) }}">{{ row.a_numeroOrdine }}_{{ row.a_lottoOrdine }}</a>
-                <td>{{ row.a_timestamp | date('d.m.y H:i:s')}}</td>
+                <td>{% if row.a_inizioFine %}
+                        I:
+                    {% else %}
+                        F:
+                    {% endif %}
+                    {{ row.a_timestamp | date('d.m.y H:i:s')}}</td>
                 <td>{{ row.o_finitura}}</td>
                 <td>{{ row.o_nCornici}}</td>
                 <td>{{ row.o_nComplementari}}</td>
@@ -48,7 +53,7 @@
             </tr>
         </tbody>
     </table>
-    <p>LEGENDA: crn=cornici, spz=spezzoni, tgl=tagli</p>
+    <p>LEGENDA: I/F= Inizio/Fine crn=cornici, spz=spezzoni, tgl=tagli</p>
 {% endblock %}
 
 {% block footer %} {% endblock %}

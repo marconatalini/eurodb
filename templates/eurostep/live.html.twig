@@ -30,6 +30,10 @@
                     {% if step.codiceFase.codiceFase == 'V2' and not step.inizioFine %}
                         : {{ step.bilancelle }} bilancelle
                     {% endif %}
+                    {% if step.codiceFase.codiceFase == 'A0' and not step.inizioFine %}
+                        [{{ step.carrello }}]
+                    {% endif %}
+
                 </td>
                 <td>{{ step.codiceOperatore }}</td>
                 <td>{% if step.inizioFine  %}<i class="fas fa-check"></i>

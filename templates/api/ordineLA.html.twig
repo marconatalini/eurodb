@@ -52,7 +52,11 @@
             {% for step in steps %}
             <tr>
                 <th scope="row">{{ step.codiceOperatore.descrizione }}</th>
-                <td>{{ step.codiceFase.descrizione}}</td>
+                <td>{{ step.codiceFase.descrizione}}
+                    {% if step.codiceFase.codiceFase == 'A0' and not step.inizioFine %}
+                        [{{ step.carrello }}]
+                    {% endif %}
+                </td>
                 <td>{{ step.timestamp | date('d.m.y H:i:s')}}</td>
                 <td>{% if step.inizioFine  %}<i class="fas fa-check"></i>
                     {% else %}<i class="fas fa-spinner"></i>

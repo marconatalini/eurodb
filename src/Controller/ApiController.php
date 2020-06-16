@@ -40,7 +40,7 @@ class ApiController extends AbstractController
         if ($result !== null) {
 //            dd($result);
             return $this->render('api/datiInviati.html.twig', [
-                'title' => 'Lavori finiti oggi',
+                'title' => 'Registrazioni di oggi',
                 'result' => $result,
             ]);
         }
