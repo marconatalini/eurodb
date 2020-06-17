@@ -76,9 +76,11 @@ class TbAvanzamentoRepository extends ServiceEntityRepository
             ->leftJoin(TbOrdinila::class , 'o', Expr\Join::WITH, '(o.numero = a.numeroOrdine AND o.lotto = a.lottoOrdine)')
             ->where('a.timestamp >= :oggi')
 //            ->andWhere('a.inizioFine = true')
+            ->andWhere('a.codiceOperatore = :operatore')
             ->andWhere('a.numeroOrdine != :ordinePulizia')
             ->setParameter('oggi', new \DateTime('today'))
             ->setParameter('ordinePulizia', 999999)
+            ->setParameter('operatore', $operatore)
             ->getQuery()
             ->getResult(Query::HYDRATE_SCALAR)
             ;
