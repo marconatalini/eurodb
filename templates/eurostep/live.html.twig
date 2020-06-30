@@ -30,7 +30,7 @@
                     {% if step.codiceFase.codiceFase == 'V2' and not step.inizioFine %}
                         : {{ step.bilancelle }} bilancelle
                     {% endif %}
-                    {% if step.codiceFase.codiceFase == 'A0' and not step.inizioFine %}
+                    {% if step.carrello != '' %}
                         [{{ step.carrello }}]
                     {% endif %}
 

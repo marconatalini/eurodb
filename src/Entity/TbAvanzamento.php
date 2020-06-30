@@ -79,7 +79,7 @@ class TbAvanzamento
     /**
      * @var string|null
      *
-     * @ORM\Column(name="carrello", type="string", length=3, nullable=true)
+     * @ORM\Column(name="carrello", type="string", length=10, nullable=true)
      */
     private $carrello;
 

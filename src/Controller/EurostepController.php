@@ -242,7 +242,7 @@ class EurostepController extends AbstractController
             //dati dalla memoria telefono
             $timestamp = $request->get("registrato_il");
             if ($timestamp !== null){
-                $step->setTimestamp(new \DateTime($timestamp));
+                $step->setTimestamp(new \DateTime($timestamp, new \DateTimeZone('+0200')));
                 $response->setContent("Memoria OK: {$ordine}_{$lotto}");
             }
 

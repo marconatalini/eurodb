@@ -110,12 +110,12 @@ class TbAvanzamentoRepository extends ServiceEntityRepository
         $sql = "select * from 
 (SELECT t1.numero_ordine as numeroOrdine, t1.lotto_ordine as lottoOrdine FROM 
     (SELECT DISTINCT numero_ordine, lotto_ordine FROM tb_avanzamento WHERE codice_fase = 'A1' and
-    inizio_fine = 1 AND timestamp > date_sub(current_date(), INTERVAL 90 DAY) 
-    union all 
-    SELECT DISTINCT numero_ordine, lotto_ordine FROM tb_avanzamento WHERE codice_fase = 'C2' and 
-    inizio_fine = 0 AND timestamp > date_sub(current_date(), INTERVAL 90 DAY)) as t1
+    inizio_fine = 1 AND timestamp > date_sub(current_date(), INTERVAL 90 DAY) and concat(numero_ordine,lotto_ordine)
+    not in (
+    SELECT concat(numero_ordine, lotto_ordine) FROM tb_avanzamento WHERE codice_fase = 'C2' and 
+    inizio_fine = 1 AND timestamp > date_sub(current_date(), INTERVAL 90 DAY))) as t1
 inner join
-    (select numero, lotto from tb_ordinila where scp = 'C' and xcdcol like 'FL%' and 
+    (select numero, lotto from tb_ordinila where n_cornici > 0 and scp = 'C' and xcdcol like 'FL%' and 
     data_finito is null and data_annullato is null order by xcdcol) as t2 on (t1.numero_ordine = 
     t2.numero and t1.lotto_ordine = t2.lotto) group by numero_ordine, lotto_ordine) as t3
 inner join
