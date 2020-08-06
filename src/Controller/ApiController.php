@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\TbAnagraficaCliente;
 use App\Entity\TbEurostepErrorLog;
+use App\Entity\TbOrdini;
 use App\Entity\TbOrdinila;
 use App\Repository\TbAvanzamentoRepository;
 use App\Repository\TbEurostepErrorLogRepository;
 use App\Repository\TbOrdinilaRepository;
+use App\Repository\TbOrdiniRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,6 +83,36 @@ class ApiController extends AbstractController
         }
 
         return new Response("Nessun ordine da cianfrinare.", Response::HTTP_NOT_FOUND);
+    }
+
+
+    /**
+     * @Route("/cliente/{numero<\d+>}/{lotto<[0-9A-Z]>}", name="app_getClienteOrdine")
+     */
+    public function getClienteOrdine($numero, $lotto, TbOrdinilaRepository $repository, TbOrdiniRepository $ordiniRepository){
+
+        $response = new Response();
+
+        /** @var  TbOrdinila $ordinela */
+        $ordinela = $repository->findOneBy([
+            'numero' => $numero,
+            'lotto' => $lotto,
+        ]);
+
+        if ($ordinela != null) {
+            $response->setContent($ordinela->getXragsoc());
+            return $response;
+        } else {
+            /** @var  TbAnagraficaCliente $ordinePe */
+            $ordinePe = $ordiniRepository->getCliente($numero, $lotto);
+            if ($ordinePe != null){
+//                dd($ordinePe);
+                $response->setContent($ordinePe[0]['xdsana']);
+                return $response;
+            }
+        }
+
+        return new Response("Ordine NON trovato", Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**

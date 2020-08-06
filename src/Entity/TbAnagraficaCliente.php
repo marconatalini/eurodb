@@ -154,5 +154,13 @@ class TbAnagraficaCliente
      */
     private $xnotec;
 
+    /**
+     * @return string
+     */
+    public function getXdsana(): string
+    {
+        return $this->xdsana;
+    }
+
 
 }

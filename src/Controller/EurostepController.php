@@ -114,6 +114,7 @@ class EurostepController extends AbstractController
 
     }
 
+
     /**
      * @Route("/dettaglio/{numero<\d+>}/{lotto<[0-9A-Z]>}", name="eurostep_ordineLA")
      */
