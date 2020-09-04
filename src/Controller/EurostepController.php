@@ -116,6 +116,83 @@ class EurostepController extends AbstractController
 
 
     /**
+     * @Route("/online/{operatore}/{fase}", name="eurostep_online")
+     */
+    public function online(Request $request, TbDipendenti $operatore, TbDescrizioniFasiProduzione $fase, PublisherInterface $publisher, TbAvanzamentoRepository $avanzamentoRepository)
+    {
+//        /online/I0056/S3?ordine_lotto=862388_0&operatore=I0056&seconds=0&bilancelle=2.3&carrello=xxx
+
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/plain');
+
+        //read parameters
+        $secondi = $request->get('seconds', 0);
+        list($ordine, $lotto) = explode('_', $request->get('ordine_lotto'));
+
+        try {
+            $step = new TbAvanzamento();
+
+            $step->setCodiceFase($fase);
+            $step->setCodiceOperatore($operatore);
+            $step->setNumeroOrdine($ordine);
+            $step->setLottoOrdine($lotto);
+            $step->setSecondi($secondi);
+            if ($secondi > 0){
+                $step->setInizioFine(true);
+            }
+            $step->setBilancelle($request->get('bilancelle', 0));
+            $step->setCarrello($request->get('carrello', null));
+
+
+            $response->setContent("Registrato ordine {$ordine}_{$lotto}");
+
+            //dati dalla memoria telefono
+            $timestamp = $request->get("registrato_il");
+            if ($timestamp !== null){
+                $step->setTimestamp(new \DateTime($timestamp, new \DateTimeZone('+0200')));
+                $response->setContent("Memoria OK: {$ordine}_{$lotto}");
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($step);
+            $em->flush();
+
+            $response->setStatusCode(Response::HTTP_OK);
+
+            try {
+                $update = new Update('http://eurodb.europrofili.locale/eurostep/',
+                    $this->serializer->serialize($step, 'json'));
+
+                $live = $_ENV['MERCURE_LIVE_OK'];
+                if ($live === "true") {
+                    $publisher($update);
+                }
+
+            } catch (\Exception $e) {
+                $response->setContent($response->getContent() . "\nErrore publisher: " . substr($e,0,50));
+            }
+
+        } catch (AssertionError $e) {
+            $response->setContent($e);
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $response;
+    }
+
+
+    private function JSONresponse($object)
+    {
+        $response = new Response();
+        $response->setContent($this->serializer->serialize($object, 'json'));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+
+    }
+
+
+    /**
      * @Route("/dettaglio/{numero<\d+>}/{lotto<[0-9A-Z]>}", name="eurostep_ordineLA")
      */
     public function ordine($numero, $lotto, TbOrdinilaRepository $tbOrdinilaRepository)
@@ -209,79 +286,4 @@ class EurostepController extends AbstractController
     }
 
 
-    /**
-     * @Route("/online/{operatore}/{fase}", name="eurostep_online")
-     */
-    public function online(Request $request, TbDipendenti $operatore, TbDescrizioniFasiProduzione $fase, PublisherInterface $publisher, TbAvanzamentoRepository $avanzamentoRepository)
-    {
-//        /online/I0056/S3?ordine_lotto=862388_0&operatore=I0056&seconds=0&bilancelle=2.3&carrello=xxx
-
-        $response = new Response();
-        $response->headers->set('Content-Type', 'text/plain');
-
-        //read parameters
-        $secondi = $request->get('seconds', 0);
-        list($ordine, $lotto) = explode('_', $request->get('ordine_lotto'));
-
-        try {
-            $step = new TbAvanzamento();
-
-            $step->setCodiceFase($fase);
-            $step->setCodiceOperatore($operatore);
-            $step->setNumeroOrdine($ordine);
-            $step->setLottoOrdine($lotto);
-            $step->setSecondi($secondi);
-            if ($secondi > 0){
-                $step->setInizioFine(true);
-            }
-            $step->setBilancelle($request->get('bilancelle', 0));
-            $step->setCarrello($request->get('carrello', null));
-
-
-            $response->setContent("Registrato ordine {$ordine}_{$lotto}");
-
-            //dati dalla memoria telefono
-            $timestamp = $request->get("registrato_il");
-            if ($timestamp !== null){
-                $step->setTimestamp(new \DateTime($timestamp, new \DateTimeZone('+0200')));
-                $response->setContent("Memoria OK: {$ordine}_{$lotto}");
-            }
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($step);
-            $em->flush();
-
-            $response->setStatusCode(Response::HTTP_OK);
-
-            try {
-                $update = new Update('http://eurodb.europrofili.locale/eurostep/',
-                    $this->serializer->serialize($step, 'json'));
-
-                $live = $_ENV['MERCURE_LIVE_OK'];
-                if ($live === "true") {
-                    $publisher($update);
-                }
-
-            } catch (\Exception $e) {
-                $response->setContent($response->getContent() . "\nErrore publisher: " . substr($e,0,50));
-            }
-
-        } catch (AssertionError $e) {
-            $response->setContent($e);
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-
-        return $response;
-    }
-
-
-    private function JSONresponse($object)
-    {
-        $response = new Response();
-        $response->setContent($this->serializer->serialize($object, 'json'));
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
-
-    }
 }

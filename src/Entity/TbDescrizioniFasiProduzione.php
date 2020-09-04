@@ -106,6 +106,10 @@ class TbDescrizioniFasiProduzione
         $this->codiceFaseAs400 = $codiceFaseAs400;
     }
 
+    public function __toString()
+    {
+        return $this->descrizione;
+    }
 
 
 }

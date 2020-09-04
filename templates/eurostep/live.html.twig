@@ -19,6 +19,7 @@
             <th scope="col">Operatore</th>
             <th scope="col">Fine</th>
             <th scope="col">Secondi</th>
+            <th scope="col">edit</th>
         </tr>
         </thead>
         <tbody>
@@ -40,10 +41,36 @@
                     {% else %}<i class="fas fa-spinner rotating"></i>
                     {% endif %}</td>
                 <td>{{ step.secondi }}</td>
+                <td>
+                    <a href="{{ path('avanzamento_edit', {idAvanzamento : step.idAvanzamento }) }}">Edit</a>
+                    {#<a href="{{ path('avanzamento_delete', {idAvanzamento : step.idAvanzamento }) }}">Delete</a>#}
+                    <a data-toggle="modal" href="#myModal" data-link="{{ path('avanzamento_delete', {idAvanzamento : step.idAvanzamento }) }}">Delete</a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+
+    <div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ATTENZIONE!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Sicuro di voler elimianre definitivamente questa registrazione. L'operazione non è reversibile.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Indietro</button>
+                    <a class="btn btn-primary" href="">Delete</a>
+                    {#<button type="button" class="btn btn-primary">Elimina</button>#}
+                </div>
+            </div>
+        </div>
+    </div>
 
     {{ include('eurostep/_paginator.html.twig', {paginator: paginator}) }}
 
