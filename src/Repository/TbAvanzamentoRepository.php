@@ -68,11 +68,12 @@ class TbAvanzamentoRepository extends ServiceEntityRepository
     {
 
         return $this->createQueryBuilder('a')
-            ->addSelect('o, d')
+            ->addSelect('o, d, s')
 //            ->addSelect('a.numeroOrdine, a.lottoOrdine, a.timestamp, a.inizioFine')
 //            ->addSelect('o.finitura, o.nCornici, o.nComplementari, o.nTagli')
 //            ->addSelect('d.idDipendente, d.descrizione')
             ->leftJoin(TbDipendenti::class, 'd', Expr\Join::WITH, ('a.codiceOperatore = d.idDipendente'))
+            ->leftJoin(TbDescrizioniFasiProduzione::class, 's', Expr\Join::WITH, ('a.codiceFase = s.codiceFase'))
             ->leftJoin(TbOrdinila::class , 'o', Expr\Join::WITH, '(o.numero = a.numeroOrdine AND o.lotto = a.lottoOrdine)')
             ->where('a.timestamp >= :oggi')
 //            ->andWhere('a.inizioFine = true')

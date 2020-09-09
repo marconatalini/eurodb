@@ -15,6 +15,7 @@
         <tr>
             <th scope="col">Ordine</th>
             <th scope="col">Timestamp</th>
+            <th scope="col">Step</th>
             <th scope="col">Finitura</th>
             <th scope="col">crn</th>
             <th scope="col">spz</th>
@@ -33,7 +34,10 @@
                     {% else %}
                         F:
                     {% endif %}
-                    {{ row.a_timestamp | date('d.m.y H:i:s')}}</td>
+                    {#{{ row.a_timestamp | date('d.m.y H:i:s')}}#}
+                    {{ row.a_timestamp | date('H:i:s')}}
+                </td>
+                <td>{{ row.s_descrizione}}</td>
                 <td>{{ row.o_finitura}}</td>
                 <td>{{ row.o_nCornici}}</td>
                 <td>{{ row.o_nComplementari}}</td>
@@ -45,6 +49,7 @@
         {% endfor %}
             <tr class="bg-dark">
                 <th scope="row">Totali</th>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td>{{ totaleCornici}}</td>
