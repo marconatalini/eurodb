@@ -120,13 +120,13 @@ class EurostepController extends AbstractController
      */
     public function online(Request $request, TbDipendenti $operatore, TbDescrizioniFasiProduzione $fase, PublisherInterface $publisher, TbAvanzamentoRepository $avanzamentoRepository)
     {
-//        /online/I0056/S3?ordine_lotto=862388_0&operatore=I0056&seconds=0&bilancelle=2.3&carrello=xxx
-
+//        /online/I0056/S3?ordine_lotto=862388_0&operatore=I0056&seconds=0&bilancelle=2.3&carrello=xxx&multiordine=x
         $response = new Response();
         $response->headers->set('Content-Type', 'text/plain');
 
         //read parameters
         $secondi = $request->get('seconds', 0);
+
         list($ordine, $lotto) = explode('_', $request->get('ordine_lotto'));
 
         try {
@@ -142,7 +142,7 @@ class EurostepController extends AbstractController
             }
             $step->setBilancelle($request->get('bilancelle', 0));
             $step->setCarrello($request->get('carrello', null));
-
+            $step->setMultiordine($request->get('multiordine', 1));
 
             $response->setContent("Registrato ordine {$ordine}_{$lotto}");
 

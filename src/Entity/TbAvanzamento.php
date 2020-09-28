@@ -84,6 +84,13 @@ class TbAvanzamento
     private $carrello;
 
     /**
+     * @var int|null
+     *
+     * @ORM\Column(name="multiordine", type="integer", nullable=true)
+     */
+    private $multiordine;
+
+    /**
      * @var \TbDescrizioniFasiProduzione
      *
      * @ORM\ManyToOne(targetEntity="TbDescrizioniFasiProduzione")
@@ -259,6 +266,22 @@ class TbAvanzamento
     public function setCarrello($carrello)
     {
         $this->carrello = $carrello;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getMultiordine()
+    {
+        return $this->multiordine;
+    }
+
+    /**
+     * @param int|null $multiordine
+     */
+    public function setMultiordine($multiordine)
+    {
+        $this->multiordine = $multiordine;
     }
 
 
