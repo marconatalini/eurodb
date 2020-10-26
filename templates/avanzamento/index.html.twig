@@ -3,18 +3,43 @@
 {% block title %}Hello AvanzamentoController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Ordine</th>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Fase</th>
+            <th scope="col">Operatore</th>
+            <th scope="col">Fine</th>
+            <th scope="col">Secondi</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for step in steps %}
+            <tr>
+                <th scope="row">{{ step.numeroOrdine }}_{{ step.lottoOrdine }}</th>
+                <td>{{ step.timestamp | date('d.m.y H:i:s')}}</td>
+                <td>{{ step.codiceFase.descrizione }}
+                    {% if step.codiceFase.codiceFase == 'V2' and not step.inizioFine %}
+                        : {{ step.bilancelle }} bilancelle
+                    {% endif %}
+                    {% if step.carrello != '' %}
+                        [{{ step.carrello }}]
+                    {% endif %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                </td>
+                <td>{{ step.codiceOperatore }}</td>
+                <td>{% if step.inizioFine  %}<i class="fas fa-check"></i>
+                    {% else %}<i class="fas fa-spinner rotating"></i>
+                    {% endif %}</td>
+                <td>{{ step.secondi }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/vagrant/eurodb/src/Controller/AvanzamentoController.php'|file_link(0) }}">src/Controller/AvanzamentoController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/vagrant/eurodb/templates/avanzamento/index.html.twig'|file_link(0) }}">templates/avanzamento/index.html.twig</a></code></li>
-    </ul>
-</div>
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(steps) }}
+    </div>
 {% endblock %}

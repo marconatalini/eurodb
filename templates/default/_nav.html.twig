@@ -10,30 +10,20 @@
 
     <div class="collapse navbar-collapse" id="baseNavbar">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            {#<li class="nav-item active">
                 <a class="nav-link" href="{{ path('eurostep_live') }}">Step!T</a>
-            </li>
+            </li>#}
             <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Privato</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reparti</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Taglio</a>
-                    <a class="dropdown-item" href="#">Saldatura</a>
-                    <a class="dropdown-item" href="#">Levigatura</a>
-                    <a class="dropdown-item" href="#">Vibratura</a>
-                    <a class="dropdown-item" href="#">Vernciatura</a>
-                    <a class="dropdown-item" href="#">Montaggio</a>
-                    <a class="dropdown-item" href="#">Imballo</a>
-                </div>
-            </li>
+            {{ render(controller('App\\Controller\\DefaultController::reparti')) }}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Eurostep</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="{{ path('app_errori') }}">Errori</a>
                     <a class="dropdown-item" href="{{ path('eurostep_live') }}">Live!</a>
                     <a class="dropdown-item" href="{{ path('app_update') }}">Scarica APP</a>
+                    <a class="dropdown-item" href="{{ path('avanzamento_index') }}">Cerca</a>
                 </div>
             </li>
         </ul>

@@ -55,7 +55,7 @@ class EurostepController extends AbstractController
             $registerDate = date('Y-m-d', date_timestamp_get(new \DateTime('today')));
         }
 
-        $result = $avanzamentoRepository->findBySearch($page, $registerDate, $codiceFase);
+        $result = $avanzamentoRepository->findByOldSearch($page, $registerDate, $codiceFase);
 
         return $this->render('eurostep/live.html.twig', [
             'paginator' => $result,

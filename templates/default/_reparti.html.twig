@@ -1,0 +1,8 @@
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reparti</a>
+    <div class="dropdown-menu" aria-labelledby="dropdown01">
+        {% for reparto in reparti %}
+            <a class="dropdown-item" href="{{ path('avanzamento_index', {"lavorazione" : reparto.codiceFase, "fromDate" : date()| date('Y-m-d')}) }}">{{ reparto.descrizione }}</a>
+        {% endfor %}
+    </div>
+</li>

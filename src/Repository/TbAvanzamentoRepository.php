@@ -32,7 +32,47 @@ class TbAvanzamentoRepository extends ServiceEntityRepository
         parent::__construct($registry, TbAvanzamento::class);
     }
 
-    public function findBySearch(int $page = 1, string $registerDate, string $codiceFase, int $limit = TbAvanzamento::MAX_RESULT)
+    public function findBySearchQueryBuilder(string $fromDate, string $toDate, TbDipendenti $dipendente = null,
+                                 TbDescrizioniFasiProduzione $lavorazione = null,
+                                 string $numero = null, string $lotto = null)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->setMaxResults(400);
+
+        if ($dipendente) {
+            $qb->andWhere('a.codiceOperatore = :dipendente')
+                ->setParameter('dipendente' , $dipendente);
+        }
+
+        if ($lavorazione) {
+            $qb->andWhere('a.codiceFase = :lavorazione')
+                ->setParameter('lavorazione' , $lavorazione);
+        }
+
+        if ($numero) {
+            $qb->andWhere('a.numeroOrdine = :numero')
+                ->setParameter('numero' , $numero)
+                ->orderBy('a.lottoOrdine')
+                ->addOrderBy('a.timestamp', 'DESC');
+        } else {
+            $qb->andWhere('a.timestamp >= :fromDate')
+                ->andWhere('a.timestamp <= :toDate')
+                ->setParameter('fromDate', $fromDate)
+                ->setParameter('toDate', $toDate . ' 23:59:59')
+                ->orderBy('a.timestamp', 'DESC');
+        }
+
+        if ($lotto) {
+            $qb->andWhere('a.lottoOrdine = :lotto')
+                ->setParameter('lotto', $lotto);
+        }
+
+//        dd($qb->getQuery());
+        return $qb;
+    }
+
+
+    public function findByOldSearch(int $page = 1, string $registerDate, string $codiceFase, int $limit = TbAvanzamento::MAX_RESULT)
     {
         $qb = $this->createQueryBuilder('a')
             ->where('a.timestamp >= :dateInizio')

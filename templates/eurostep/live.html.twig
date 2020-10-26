@@ -7,8 +7,6 @@
     {{ encore_entry_link_tags('live') }}
 {% endblock %}
 
-{% block nav %} {% endblock %}
-
 {% block body %}
     <table class="table">
         <thead>
@@ -42,9 +40,9 @@
                     {% endif %}</td>
                 <td>{{ step.secondi }}</td>
                 <td>
-                    <a href="{{ path('avanzamento_edit', {idAvanzamento : step.idAvanzamento }) }}">Edit</a>
+                    <a href="{{ path('avanzamento_edit', {idAvanzamento : step.idAvanzamento }) }}"><i class="fas fa-edit"></i></a>
                     {#<a href="{{ path('avanzamento_delete', {idAvanzamento : step.idAvanzamento }) }}">Delete</a>#}
-                    <a data-toggle="modal" href="#myModal" data-link="{{ path('avanzamento_delete', {idAvanzamento : step.idAvanzamento }) }}">Delete</a>
+                    <a data-toggle="modal" href="#myModal" data-link="{{ path('avanzamento_delete', {idAvanzamento : step.idAvanzamento }) }}"><i class="fas fa-backspace"></i></a>
                 </td>
             </tr>
         {% endfor %}

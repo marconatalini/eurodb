@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Eurodb - ricerca avanzamento{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="container mt-5 justify-content-center">
+        <form class="form mt-5" method="get">
+            <div class="row m-0">
+                <div class="form-group mr-2">
+                    <label for="fromDate">DA </label>
+                    <input type="date" class="form-control" name="fromDate" id="fromDate"
+                           value="{{ date()|date("Y-m-d") }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="toDate">A </label>
+                    <input type="date" class="form-control" name="toDate" id="toDate"
+                           value="{{ date()|date("Y-m-d") }}" required>
+                </div>
+            </div>
+
+            <div class="row m-0">
+                <div class="form-group">
+                    <label for="numero">Numero Ordine</label>
+                    <input type="text" class="form-control" name="numero" id="numero"
+                           placeholder="Numero d'ordine - senza LOTTO" autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="lotto">Lotto Ordine</label>
+                    <input type="text" class="form-control" name="lotto" id="lotto"
+                           placeholder="Lotto ordine (0,1,2...A,B)" autofocus>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="required" for="step_operatore">Operatore</label>
+                <select id="step_operatore" name="operatore" aria-describedby="step_operatore_help" class="form-control">
+                    <option value="" selected="selected">Scegli operatore</option>
+                    {% for dipendente in dipendenti %}
+                        <option value="{{ dipendente.idDipendente }}">{{ dipendente.descrizione }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="image_category">Lavorazione</label>
+                <select id="step_lavorazione" name="lavorazione" aria-describedby="step_lavorazione_help" class="form-control">
+                    <option value="" selected="selected">Scegli lavorazione</option>
+                    {% for lavorazione in lavorazioni %}
+                        <option value="{{ lavorazione.codiceFase }}">{{ lavorazione.descrizione }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Cerca</button>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
