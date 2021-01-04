@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Grafico tempi{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('timeChart') }}
+{% endblock %}
+
+{% block body %}
+    <div id="labels" data-risultato = "{{ labels|json_encode }}"></div>
+    <div id="dataset" data-risultato = "{{ dataset|json_encode }}"></div>
+
+    <div class="row">
+        <div class="col-12 col-md-6">
+            {{ render(url('ordine_dettaglio', {numero: numero, lotto: lotto})) }}
+            <dl class="container row">
+                {% for t in tempi %}
+                    <dt class="col-3">{{ t.descrizione }}</dt>
+                    <dd class="col-9">{{ t.secondiSum|format_duration_number}}</dd>
+                {% endfor %}
+            </dl>
+        </div>
+        <div class="col-12 col-md-6">
+            <canvas class="col" id="myChart"></canvas>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('timeChart') }}
+{% endblock %}

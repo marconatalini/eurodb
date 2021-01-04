@@ -1326,5 +1326,11 @@ class TbOrdinila
         $this->mqTotali = $mqTotali;
     }
 
+    public function getMercato()
+    {
+        return 'LA';
+    }
+
+
 
    }

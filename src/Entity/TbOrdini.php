@@ -294,6 +294,330 @@ class TbOrdini
      */
     private $lastUpdate = 'CURRENT_TIMESTAMP';
 
+    public function getMercato()
+    {
+        return 'PE';
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdOrdine(): int
+    {
+        return $this->idOrdine;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrdine(): string
+    {
+        return $this->ordine;
+    }
+
+    /**
+     * @return string
+     */
+    public function getXcodic(): string
+    {
+        return $this->xcodic;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getRiferimento()
+    {
+        return $this->riferimento;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getColore()
+    {
+        return $this->colore;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getColorecassa()
+    {
+        return $this->colorecassa;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getTipo2()
+    {
+        return $this->tipo2;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getApplicazione()
+    {
+        return $this->applicazione;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQtàpersiane()
+    {
+        return $this->qtàpersiane;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQtàtelaio()
+    {
+        return $this->qtàtelaio;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQtàante()
+    {
+        return $this->qtàante;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQtàtelaiosaldati()
+    {
+        return $this->qtàtelaiosaldati;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQtàantesaldate()
+    {
+        return $this->qtàantesaldate;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getFerramenta()
+    {
+        return $this->ferramenta;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDInserimento()
+    {
+        return $this->dInserimento;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDPresviluppo()
+    {
+        return $this->dPresviluppo;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDControllo()
+    {
+        return $this->dControllo;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDSviluppo()
+    {
+        return $this->dSviluppo;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDInvio()
+    {
+        return $this->dInvio;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getVerniciatore()
+    {
+        return $this->verniciatore;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDRientro()
+    {
+        return $this->dRientro;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDPronto()
+    {
+        return $this->dPronto;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDEvaso()
+    {
+        return $this->dEvaso;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDConsegna()
+    {
+        return $this->dConsegna;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDInviodoc()
+    {
+        return $this->dInviodoc;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getLastuser()
+    {
+        return $this->lastuser;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getAnnullato()
+    {
+        return $this->annullato;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getDdt()
+    {
+        return $this->ddt;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getOrdinemonoblocco()
+    {
+        return $this->ordinemonoblocco;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getNodocce()
+    {
+        return $this->nodocce;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getStopmateriali()
+    {
+        return $this->stopmateriali;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getStopaccessori()
+    {
+        return $this->stopaccessori;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getStatusgenerale()
+    {
+        return $this->statusgenerale;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getStopfase1()
+    {
+        return $this->stopfase1;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getStopfase2()
+    {
+        return $this->stopfase2;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getStatofase1()
+    {
+        return $this->statofase1;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getStatofase2()
+    {
+        return $this->statofase2;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getLastUpdate(): \DateTime
+    {
+        return $this->lastUpdate;
+    }
 
 
 

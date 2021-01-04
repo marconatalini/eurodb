@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AvanzamentoController!{% endblock %}
+{% block title %}Avanzamento{% endblock %}
 
 {% block body %}
+    <div id="livemode" data-live="{% if livemode is defined  %}{{ livemode }}{% endif %}"></div>
     <table class="table">
         <thead>
         <tr>
@@ -12,12 +13,15 @@
             <th scope="col">Operatore</th>
             <th scope="col">Fine</th>
             <th scope="col">Secondi</th>
+            <th scope="col">Operazioni</th>
         </tr>
         </thead>
         <tbody>
         {% for step in steps %}
             <tr>
-                <th scope="row">{{ step.numeroOrdine }}_{{ step.lottoOrdine }}</th>
+                <th scope="row">
+                    <a href="{{ path('avanzamento_timechart', {numero: step.numeroOrdine, lotto: step.lottoOrdine}) }}">{{ step.numeroOrdine }}_{{ step.lottoOrdine }}</a>
+                </th>
                 <td>{{ step.timestamp | date('d.m.y H:i:s')}}</td>
                 <td>{{ step.codiceFase.descrizione }}
                     {% if step.codiceFase.codiceFase == 'V2' and not step.inizioFine %}
@@ -33,13 +37,44 @@
                     {% else %}<i class="fas fa-spinner rotating"></i>
                     {% endif %}</td>
                 <td>{{ step.secondi }}</td>
+                <td>
+                    <a href="{{ path('avanzamento_edit', {idAvanzamento : step.idAvanzamento }) }}">edit</a>
+                    <a class="text-danger" data-toggle="modal" href="#myModal" data-link="{{ path('avanzamento_delete', {idAvanzamento : step.idAvanzamento }) }}">cancella</a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
+    <div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ATTENZIONE!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Sicuro di voler eliminare definitivamente questa registrazione. L'operazione non è reversibile.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Indietro</button>
+                    <a class="btn btn-primary" href="">Delete</a>
+                    {#<button type="button" class="btn btn-primary">Elimina</button>#}
+                </div>
+            </div>
+        </div>
+    </div>
+
     {# display navigation #}
     <div class="navigation">
         {{ knp_pagination_render(steps) }}
     </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('live') }}
 {% endblock %}

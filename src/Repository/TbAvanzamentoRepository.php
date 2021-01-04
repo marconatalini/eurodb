@@ -14,6 +14,7 @@ use App\Entity\TbDipendenti;
 use App\Entity\TbOrdinila;
 use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\Persistence\ManagerRegistry;
@@ -90,6 +91,15 @@ class TbAvanzamentoRepository extends ServiceEntityRepository
             ->setMaxResults($limit);
 
         return (new Paginator($qb, 50))->paginate($page);
+    }
+
+    public function findRegistrazioniOggiQueryBuilder()
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.timestamp >= :oggi')
+            ->setParameter('oggi', new \DateTime('today'))
+            ->orderBy('a.timestamp', "DESC")
+            ;
     }
 
     public function findRegistrazioniOggi()
@@ -213,6 +223,22 @@ inner join
     FROM tb_ordinila) as t4 on (t3.numeroOrdine = t4.a_numeroOrdine and t3.lottoOrdine = t4.a_lottoOrdine) order by t4.xcdcol;";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function findTempiOrdine($numero, $lotto)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "select f.descrizione, a.codice_fase, sum(a.secondi) as secondiSum 
+from tb_avanzamento a join tb_descrizioni_fasi_produzione f on (a.codice_fase = f.codice_fase) 
+where a.numero_ordine = :numeroOrdine and a.lotto_ordine = :lottoOrdine and a.secondi > 1 group by a.codice_fase;";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            'numeroOrdine' => $numero,
+            'lottoOrdine' => $lotto
+        ]);
         return $stmt->fetchAll();
     }
 }

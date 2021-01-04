@@ -1,6 +1,6 @@
 require('../scss/live.scss');
 
-document.addEventListener('DOMContentLoaded', function() {
+function goLive() {
     // let terminaleDiv = document.querySelector('.js-terminale-id');
     // let idTerminale = terminaleDiv.dataset.idTerminale;
 
@@ -45,7 +45,14 @@ document.addEventListener('DOMContentLoaded', function() {
             <td><i class="${inizioFineClass}"></i></td>
             <td>${step.secondi}</td></tr>`));
     }
+}
 
+document.addEventListener('DOMContentLoaded', function() {
+    let livemode = document.getElementById('livemode').dataset.live;
+    console.log(livemode);
+    if (livemode == 1) {
+        goLive();
+    }
 });
 
 $('#myModal').on('show.bs.modal', function (event) {

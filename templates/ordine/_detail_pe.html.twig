@@ -1,0 +1,21 @@
+{# @var ordine \App\Entity\TbOrdini #}
+
+{% if ordine is defined %}
+    <dl class="container row">
+        <dt class="col-3">Ordine</dt>
+        <dd class="col-9">{{ ordine.ordine }}</dd>
+        <dt class="col-3">Cliente</dt>
+        <dd class="col-9">[{{ ordine.xcodic }}]</dd>
+        <dt class="col-3">Riferimento</dt>
+        <dd class="col-9">{{ ordine.riferimento}}</dd>
+        <dt class="col-3">Ordinato il</dt>
+        <dd class="col-9">{{ ordine.dInserimento|date('d.m.Y') }}</dd>
+        <dt class="col-3">Confermato il </dt>
+        <dd class="col-9">{{ ordine.dPresviluppo|date('d.m.Y')  }}</dd>
+        <dt class="col-3">Scadenza</dt>
+        <dd class="col-9">{{ ordine.dConsegna|date('d.m.Y')  }}</dd>
+        <dt class="col-3">Note</dt>
+        <dd class="col-9">{{ ordine.note }}</dd>
+    </dl>
+
+{% endif %}

@@ -1,0 +1,23 @@
+{# @var ordine \App\Entity\TbOrdinila #}
+
+{% if ordine is defined %}
+    <dl class="container row">
+        <dt class="col-3">Ordine</dt>
+        <dd class="col-9">{{ ordine.numero }}_{{ ordine.lotto }}</dd>
+        <dt class="col-3">Cliente</dt>
+        <dd class="col-9">[{{ ordine.xcodic }}] {{ ordine.xragsoc}}</dd>
+        <dt class="col-3">Riferimento</dt>
+        <dd class="col-9">{{ ordine.riferimento}}</dd>
+        <dt class="col-3">Ordinato il</dt>
+        <dd class="col-9">{{ ordine.dataOrdine|date('d.m.Y') }}</dd>
+        <dt class="col-3">Confermato il </dt>
+        <dd class="col-9">{{ ordine.dataConfermato|date('d.m.Y')  }}</dd>
+        <dt class="col-3">Scadenza</dt>
+        <dd class="col-9">{{ ordine.dataScadenzaProduzione|date('d.m.Y')  }}</dd>
+        <dt class="col-3">Tecnico</dt>
+        <dd class="col-9">{{ ordine.tecnico }}</dd>
+        <dt class="col-3">Note</dt>
+        <dd class="col-9">{{ ordine.note }}</dd>
+    </dl>
+
+{% endif %}

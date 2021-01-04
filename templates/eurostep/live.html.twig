@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Eurostep: LIVE{% endblock %}
+{% block title %}Avanzamento: LIVE mode{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -69,8 +69,6 @@
             </div>
         </div>
     </div>
-
-    {{ include('eurostep/_paginator.html.twig', {paginator: paginator}) }}
 
 {% endblock %}
 

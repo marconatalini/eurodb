@@ -107,6 +107,11 @@ class TbAvanzamento
         $this->inizioFine = false;
     }
 
+    public function __toString()
+    {
+        return sprintf("%s_%s %s", $this->numeroOrdine, $this->lottoOrdine, $this->codiceFase);
+    }
+
 
     /**
      * @return int
