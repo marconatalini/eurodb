@@ -91,6 +91,13 @@ class TbAvanzamento
     private $multiordine;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="note", type="string", length=100, nullable=true)
+     */
+    private $note;
+
+    /**
      * @var \TbDescrizioniFasiProduzione
      *
      * @ORM\ManyToOne(targetEntity="TbDescrizioniFasiProduzione")
@@ -289,7 +296,21 @@ class TbAvanzamento
         $this->multiordine = $multiordine;
     }
 
+    /**
+     * @return null|string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
 
-
+    /**
+     * @param null|string $note
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+    }
+    
 
 }
