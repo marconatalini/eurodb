@@ -93,7 +93,7 @@ class TbAvanzamento
     /**
      * @var string|null
      *
-     * @ORM\Column(name="note", type="string", length=100, nullable=true)
+     * @ORM\Column(name="note", type="string", length=200, nullable=true)
      */
     private $note;
 
@@ -311,6 +311,6 @@ class TbAvanzamento
     {
         $this->note = $note;
     }
-    
+
 
 }

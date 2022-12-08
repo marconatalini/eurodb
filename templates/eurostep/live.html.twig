@@ -16,7 +16,7 @@
             <th scope="col">Fase</th>
             <th scope="col">Operatore</th>
             <th scope="col">Fine</th>
-            <th scope="col">Secondi</th>
+            <th scope="col">Note</th>
             <th scope="col">edit</th>
         </tr>
         </thead>
@@ -38,7 +38,7 @@
                 <td>{% if step.inizioFine  %}<i class="fas fa-check"></i>
                     {% else %}<i class="fas fa-spinner rotating"></i>
                     {% endif %}</td>
-                <td>{{ step.secondi }}</td>
+                <td>{{ step.note}}</td>
                 <td>
                     <a href="{{ path('avanzamento_edit', {idAvanzamento : step.idAvanzamento }) }}"><i class="fas fa-edit"></i></a>
                     {#<a href="{{ path('avanzamento_delete', {idAvanzamento : step.idAvanzamento }) }}">Delete</a>#}
