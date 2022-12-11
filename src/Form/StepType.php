@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -29,7 +30,11 @@ class StepType extends AbstractType
                 'label' => 'Fine lavoro',
                 'required' => false
             ])
-//            ->add('secondi')
+            ->add('note', TextareaType::class, [
+                'label' => 'Note / Mancanze',
+                'required' => false,
+                'attr' => ['rows' => 4]
+            ])
             ->add('salva', SubmitType::class, [
 
             ])
