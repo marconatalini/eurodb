@@ -241,4 +241,26 @@ where a.numero_ordine = :numeroOrdine and a.lotto_ordine = :lottoOrdine and a.se
         ]);
         return $stmt->fetchAll();
     }
+
+    public function findNoteOrdine($numero, $lotto)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->join('a.codiceOperatore', 'd')
+            ->select('a.numeroOrdine, a.lottoOrdine, a.note, d.descrizione, a.timestamp')
+            ->where('a.numeroOrdine = :numero')
+            ->andWhere('a.lottoOrdine = :lotto')
+            ->setParameter('numero', $numero)
+            ->setParameter('lotto', $lotto)
+            ;
+
+        $orX = $qb->expr()->gt($qb->expr()->length('a.note'),0);
+
+        return $qb
+            ->andWhere($orX)
+            ->getQuery()
+            ->getResult()
+            ;
+
+
+    }
 }

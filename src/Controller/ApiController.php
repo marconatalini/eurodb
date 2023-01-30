@@ -12,6 +12,7 @@ use App\Repository\TbOrdinilaRepository;
 use App\Repository\TbOrdiniRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -179,6 +180,21 @@ class ApiController extends AbstractController
             'title' => "Ultimi errori APP Eurostep",
             'result' => $result,
         ]);
+    }
+
+    /**
+     * @Route("/note/{numero<\d+>}/{lotto<[0-9A-Z]>}", name="app_note_avanzamento")
+     */
+    public function get_note_avazamento($numero, $lotto, TbAvanzamentoRepository $tbAvanzamentoRepository){
+
+        $steps = $tbAvanzamentoRepository->findNoteOrdine($numero, $lotto);
+
+//        dd($steps, $numero, $lotto);
+
+        $response = new JsonResponse($steps);
+
+        return $response;
+
     }
 
 }
