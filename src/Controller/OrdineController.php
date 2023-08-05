@@ -67,5 +67,23 @@ class OrdineController extends AbstractController
         ]);
     }
 
+    /**
+    * @param $numero
+    * @param $lotto
+    * @Route("/cornici/{numero}/{lotto}", name="ordine_cornici")
+    */
+    public function get_cornici(int $numero, string $lotto)
+    {
+        $ordine = $this->getOrdine($numero, $lotto);
 
+        if ($ordine->getMercato() == 'LA') {
+            return $this->render('avanzamento/_cornici.html.twig', [
+                'ordine' => $ordine
+            ]);
+        }
+
+        return $this->render('avanzamento/_persiane.html.twig', [
+            'ordine' => $ordine
+        ]);
+    }
 }

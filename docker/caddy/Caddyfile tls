@@ -1,0 +1,22 @@
+{
+    on_demand_tls {
+        ask     http://localhost/check
+        burst 5
+    }
+}
+
+https:// {
+	tls {
+		on_demand
+	}
+
+	route {
+		root * /srv/app/public
+
+		php_fastcgi unix//var/run/php/php-fpm.sock
+		encode zstd gzip
+		file_server
+	}
+}
+
+

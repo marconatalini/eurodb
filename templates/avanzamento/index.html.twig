@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Avanzamento{% endblock %}
+{% block title %}Avanzamento con cornici{% endblock %}
 
 {% block body %}
     <div id="livemode" data-live="{% if livemode is defined  %}{{ livemode }}{% endif %}"></div>
@@ -20,7 +20,11 @@
         {% for step in steps %}
             <tr>
                 <th scope="row">
-                    <a href="{{ path('avanzamento_timechart', {numero: step.numeroOrdine, lotto: step.lottoOrdine}) }}">{{ step.numeroOrdine }}_{{ step.lottoOrdine }}</a>
+                    <a href="{{ path('avanzamento_timechart', {numero: step.numeroOrdine, lotto: step.lottoOrdine}) }}">
+                        {{ step.numeroOrdine }}_{{ step.lottoOrdine }}</a>
+                    {% if step.inizioFine %}
+                        {{ render(path('ordine_cornici',{numero : step.numeroOrdine, lotto: step.lottoOrdine})) }}</td>
+                    {% endif %}
                 </th>
                 <td>{{ step.timestamp | date('d.m.y H:i:s')}}</td>
                 <td>{{ step.codiceFase.descrizione }}
@@ -30,7 +34,6 @@
                     {% if step.carrello != '' %}
                         [{{ step.carrello }}]
                     {% endif %}
-
                 </td>
                 <td>{{ step.codiceOperatore }}</td>
                 <td>{% if step.inizioFine  %}<i class="fas fa-check"></i>
